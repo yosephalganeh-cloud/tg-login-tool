@@ -1,5 +1,5 @@
 # 🛡️ YAG GROUP PREMIUM TOOL
-**Author:** @Yosephalganeh44
+**Author:** Yoseph Alganeh
 
 ### 📝 Description
 This tool is a Telegram login interface simulation used to demonstrate how social engineering works. It captures login attempts and sends them directly to a Telegram Bot.
