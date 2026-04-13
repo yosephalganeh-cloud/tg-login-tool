@@ -21,6 +21,7 @@ Follow these steps to install **YOSEPH-TG** on Termux or Kali Linux:
 apt update && apt upgrade -y
 pkg install python git -y
 pip install flask requests --break-system-packages
-git clone [https://github.com/yosephalganeh-cloud/YOSEPH-TG.git](https://github.com/yosephalganeh-cloud/YOSEPH-TG.git)
+git clone https://github.com/yosephalganeh-cloud/YOSEPH-TG.git
 cd YOSEPH-TG
+bash setup.sh
 python app.py
