@@ -5,7 +5,7 @@ app = Flask(__name__)
 
 # --- Configuration & Security ---
 CONFIG_FILE = "config.txt"
-TOOL_NAME = "YOSEPH-TG"
+TOOL_NAME = "YOSEPH-FX"
 # '@Yosephalganeh44' - Base64 Encoded for protection
 ENCODED_PASS = "QFlvc2VwaGFsZ2FuZWg0NA==" 
 SELECTED_PLATFORM = {}
@@ -36,7 +36,7 @@ def banner():
  █▄─█─▄█─▄▄─█─▄▄▄─█▄─▄▄─█─█─█─▀█▄─▄▄─█
  ─█─▀─██─█─║█─█─▄█─█─█─║█─█─█──█─█─║█
  ─▀───▀▀▄▄▀▀▀▄▄▄▀▀▄▄▀▀▀▀▀▀▀▀▀──▀▄▄▀▀▀
-      DEVELOPER: \033[93mYoseph (@Yosephalganeh44)\033[96m
+      DEVELOPER: \033[93mYoseph Alganeh (TELEGRAM:@JO_INVISBLE)\033[96m
  ════════════════════════════════════════\033[0m""")
 
 def check_access():
