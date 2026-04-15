@@ -13,7 +13,7 @@ app = Flask(__name__)
 # CORE CONFIGURATION & SYSTEM IDENTITY
 # ==========================================
 TOOL_NAME = "YOSEPH-TG"
-VERSION = "12.0.1 (Omniverse)"
+VERSION = "12.0.1 (BAD ETHIOPIANHACKER)"
 DEVELOPER = "Yoseph Alganeh" #
 CONFIG_FILE = "system_data.json"
 # Access Token: @Yosephalganeh44
@@ -78,7 +78,8 @@ def banner():
  ╠═══════════════════════════════════════════════════════════════════╣
  ║  \033[97mDEVELOPER : \033[92m{DEVELOPER}\033[96m                               ║
  ║  \033[97mVERSION   : \033[93m{VERSION}\033[96m                                   ║
-                                     ║
+ ║  \033[97mTOOL_NAME : \033[92m{TOOL_NAME}\033[96m                ║
+ ║  \033[97mIP ADDR   : \033[92m{info['ip']}\033[96m                                     ║
  ╚═══════════════════════════════════════════════════════════════════╝\033[0m""")
 
 def authenticate():
@@ -86,7 +87,7 @@ def authenticate():
     key = input("\033[93m[?] Enter Master Access Key: \033[0m").strip()
     if key != base64.b64decode(ENCRYPTED_KEY).decode():
         print("\033[91m[!] SECURITY BREACH DETECTED. SYSTEM HALTED.\033[0m"); sys.exit()
-    print("\033[92m[+] Authentication Successful. Welcome BOSS.\033[0m")
+    print("\033[92m[+] Authentication Successful. Welcome Yoseph.\033[0m")
     time.sleep(1)
 
 def load_system():
